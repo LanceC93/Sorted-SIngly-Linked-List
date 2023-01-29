@@ -38,6 +38,7 @@ public class SortedLinkedList {
             currentPos = head;
             while(currentPos.next != null) {
                 if(currentPos.next.info.compareTo(item) == 0) {
+                    System.out.println("Sorry. You cannot insert duplicate item.");
                     return;
                 } else if(currentPos.next.info.compareTo(item) == -1) {
                     currentPos.next = new NodeType(item, currentPos.next);
@@ -73,7 +74,7 @@ public class SortedLinkedList {
     public int searchItem(ItemType item) {
         currentPos = head;
         int index = 0;
-        while(currentPos.next != null) {
+        while(currentPos != null && currentPos.info.compareTo(item) != 1) {
             if(currentPos.info.compareTo(item) == 0) {
                 return index;
             }
@@ -103,5 +104,62 @@ public class SortedLinkedList {
     //resets currentPos to null
     public void resetList() {
         currentPos = null;
+    }
+
+    //returns string representation of list
+    public String toString() {
+        String s = String.valueOf(head.info.getValue());
+        currentPos = head.next;
+        while(currentPos != null) {
+            s = s + " " + currentPos.info.getValue();
+        }
+        return s;
+    }
+
+    //merges two lists
+    public void mergeList(SortedLinkedList l) {
+        currentPos = head;
+        l.currentPos = l.head;
+        SortedLinkedList merged = new SortedLinkedList();
+        while(currentPos != null ) {
+            merged.insertItem(currentPos.info);
+            currentPos = currentPos.next;
+        }
+        while(l.currentPos != null ) {                         //THIS IS GOING TO PRINT A MESSAGE FOR EVERY DUPLICATE
+            merged.insertItem(l.currentPos.info);
+            l.currentPos = l.currentPos.next;
+        }
+        System.out.println("List 1: " + toString());
+        System.out.println("List 2: " + l);
+        System.out.println("Merged List: " + merged);
+    }
+
+    //deletes alternate nodes
+    public void deleteAlternate() {
+        System.out.println("List Before Alternate Delete: " + toString());
+        currentPos = head;
+        while(currentPos.next != null) {
+            deleteItem(getNextItem());
+        }
+        System.out.println("List After Alternate Delete: " + toString());
+    }
+
+    //prints the values that two lists have in common
+    public void intersection(SortedLinkedList l) {
+        System.out.println("List 1: " + toString());
+        System.out.println("List 2: " + l);
+
+        currentPos = head;
+        SortedLinkedList intersect = new SortedLinkedList();
+        while(currentPos != null) {
+            l.currentPos = l.head;
+            while(l.currentPos != null && currentPos.info.compareTo(l.currentPos.info) != 1) {
+                if(currentPos.info.compareTo(l.currentPos.info) == 0) {
+                    intersect.insertItem(getNextItem());
+                }
+                l.currentPos = l.currentPos.next;
+            }
+        }
+        System.out.println("Intersection: " + intersect);
     }
 }
