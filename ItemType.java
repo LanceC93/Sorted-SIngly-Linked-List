@@ -17,12 +17,12 @@ public class ItemType {
     //compares two ItemType object's value 
     public int compareTo(ItemType item) {
         //value is less than item
-        if(value < item.getValue()) {
-            return -1;
+        if(value == item.getValue()) {
+            return 0;
         } else if (value > item.getValue()) {   //value is greater than item
             return 1;
         } else {     //value and item are equal
-            return 0;
+            return -1;
         }
     }
 }
